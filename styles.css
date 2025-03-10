@@ -763,3 +763,210 @@ textarea:focus {
 .atendimentos-list td {
     background-color: #fff;
 }
+
+/* Estilos para sugestões de clientes */
+.sugestoes {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: calc(100% - 20px);
+}
+
+.sugestoes div {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sugestoes div:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para filtros */
+.filtros {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.filtros .input-group {
+    margin-bottom: 10px;
+}
+
+.filtros .filtrar-btn {
+    padding: 10px 20px;
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filtros .filtrar-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Estilos para estatísticas */
+.estatisticas {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.estatisticas h3 {
+    margin-bottom: 10px;
+}
+
+.estatisticas p {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Estilos para botão de exportar */
+.exportar-btn {
+    padding: 10px 20px;
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s;
+}
+
+.exportar-btn:hover {
+    background-color: #219653;
+}
+
+.exportar-btn i {
+    margin-right: 5px;
+}
+
+/* Estilos para o dashboard */
+.dashboard-section {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.dashboard-section h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Cards de Informações */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.card p {
+    font-size: 24px;
+    font-weight: 600;
+    color: #27ae60;
+}
+
+.card ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.card ul li {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* Gráficos */
+.graficos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.grafico-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.grafico-card h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Links Rápidos */
+.links-rapidos {
+    margin-bottom: 40px;
+}
+
+.links-rapidos h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.link-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: transform 0.3s;
+}
+
+.link-card:hover {
+    transform: translateY(-5px);
+}
+
+.link-card i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #f39c12;
+}
+
+.link-card span {
+    font-size: 16px;
+    font-weight: 500;
+}
