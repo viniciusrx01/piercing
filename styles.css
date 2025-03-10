@@ -1211,3 +1211,120 @@ body {
         font-size: 14px;
     }
 }
+
+/* Estilos para a página de cadastro de materiais */
+.cadastro-section {
+    padding: 20px;
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cadastro-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.cadastro-section p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-color: #f39c12;
+    outline: none;
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.foto-preview {
+    margin-top: 10px;
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.foto-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #f39c12;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #e67e22;
+}
+
+/* Media Queries para Telas Pequenas (Celulares) */
+@media (max-width: 768px) {
+    .cadastro-section {
+        padding: 15px;
+    }
+
+    .cadastro-section h2 {
+        font-size: 20px;
+    }
+
+    .cadastro-section p {
+        font-size: 14px;
+    }
+
+    .input-group input,
+    .input-group textarea,
+    .input-group select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
