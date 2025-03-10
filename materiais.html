@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Materiais - Bijuterias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Bijuterias<span>Luxo</span></h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="materiais.html">Materiais</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+            </ul>
+        </nav>
+        <div class="user">
+            <span>Olá, Admin</span>
+            <button class="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="materiais-section">
+            <h2>Catálogo de Materiais</h2>
+            <p>Confira nosso catálogo completo de materiais para bijuterias.</p>
+
+            <!-- Botão para adicionar novo material -->
+            <button class="adicionar-material-btn" onclick="window.location.href='cadastro-material.html'">Adicionar Material</button>
+
+            <!-- Lista de Materiais -->
+            <div class="materiais-list" id="materiaisList">
+                <!-- Materiais serão carregados via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 BijuteriasLuxo. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

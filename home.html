@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Bijuterias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Bijuterias<span>Luxo</span></h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="cadastro-material.html">Materiais</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+            </ul>
+        </nav>
+        <div class="user">
+            <span>Olá, Admin</span>
+            <button class="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="welcome-section">
+            <h2>Bem-vindo ao Sistema de Bijuterias</h2>
+            <p>Gerencie seus clientes, estoque e atendimentos de forma fácil e eficiente.</p>
+        </section>
+
+        <section class="cards-section">
+            <div class="card">
+                <h3>Clientes Cadastrados</h3>
+                <p id="clientCount">0</p>
+                <a href="cadastro-cliente.html">Ver mais</a>
+            </div>
+            <div class="card">
+                <h3>Produtos em Estoque</h3>
+                <p id="stockCount">0</p>
+                <a href="estoque.html">Ver mais</a>
+            </div>
+            <div class="card">
+                <h3>Atendimentos do Mês</h3>
+                <p id="attendanceCount">0</p>
+                <a href="atendimentos.html">Ver mais</a>
+            </div>
+        </section>
+
+        <section class="recent-activities">
+            <h3>Atividades Recentes</h3>
+            <ul id="activitiesList">
+                <li>Nenhuma atividade recente.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 BijuteriasLuxo. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
