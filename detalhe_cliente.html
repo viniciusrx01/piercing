@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes - Bijuterias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Piercing<span>Control</span></h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="materiais.html">Materiais</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+        <div class="user">
+            <span>Olá, Admin</span>
+            <button class="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="cliente-section">
+            <h2>Detalhes do Cliente</h2>
+
+            <!-- Informações do Cliente -->
+            <div class="cliente-info">
+                <div class="cliente-card">
+                    <h3>Maria Silva</h3>
+                    <p><strong>Data de Nascimento:</strong> 15/03/1990</p>
+                    <p><strong>WhatsApp:</strong> (11) 98765-4321</p>
+                    <p><strong>Instagram:</strong> @maria_silva</p>
+                    <p><strong>Endereço:</strong> Rua das Flores, 123 - São Paulo, SP</p>
+                    <p><strong>Observações:</strong> Cliente preferencial, gosta de colares de prata.</p>
+                </div>
+
+                <!-- Estatísticas do Cliente -->
+                <div class="estatisticas-card">
+                    <h3>Estatísticas</h3>
+                    <p><strong>Total de Atendimentos:</strong> 5</p>
+                    <p><strong>Valor Total Gasto:</strong> R$ 850,00</p>
+                    <p><strong>Último Atendimento:</strong> 21/02/2024</p>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="acoes-cliente">
+                <button class="editar-btn" onclick="editarCliente()">
+                    <i class="fas fa-edit"></i> Editar Cliente
+                </button>
+                <button class="excluir-btn" onclick="excluirCliente()">
+                    <i class="fas fa-trash"></i> Excluir Cliente
+                </button>
+                <button class="novo-atendimento-btn" onclick="novoAtendimento()">
+                    <i class="fas fa-calendar-plus"></i> Novo Atendimento
+                </button>
+            </div>
+
+            <!-- Histórico de Atendimentos -->
+            <div class="historico-atendimentos">
+                <h3>Histórico de Atendimentos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Procedimento</th>
+                            <th>Valor Pago</th>
+                            <th>Jóia Utilizada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>21/02/2024</td>
+                            <td>Colocação de piercing no nariz</td>
+                            <td>R$ 150,00</td>
+                            <td>Argola de prata</td>
+                        </tr>
+                        <tr>
+                            <td>15/01/2024</td>
+                            <td>Troca de colar</td>
+                            <td>R$ 200,00</td>
+                            <td>Colar de prata</td>
+                        </tr>
+                        <!-- Mais atendimentos serão carregados dinamicamente via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 PiercingControl. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
