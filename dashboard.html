@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Bijuterias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Bijuterias<span>Luxo</span></h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="materiais.html">Materiais</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+        <div class="user">
+            <span>Olá, Admin</span>
+            <button class="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="dashboard-section">
+            <h2>Dashboard</h2>
+
+            <!-- Cards de Informações -->
+            <div class="cards">
+                <div class="card">
+                    <h3>Total de Clientes</h3>
+                    <p id="totalClientes">0</p>
+                </div>
+                <div class="card">
+                    <h3>Total de Materiais</h3>
+                    <p id="totalMateriais">0</p>
+                </div>
+                <div class="card">
+                    <h3>Valor dos Atendimentos (Mês)</h3>
+                    <p id="valorAtendimentos">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Próximos Aniversários</h3>
+                    <ul id="proximosAniversarios">
+                        <!-- Aniversários serão carregados via JavaScript -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="graficos">
+                <div class="grafico-card">
+                    <h3>Atendimentos por Mês</h3>
+                    <canvas id="graficoAtendimentos"></canvas>
+                </div>
+                <div class="grafico-card">
+                    <h3>Materiais Mais Utilizados</h3>
+                    <canvas id="graficoMateriais"></canvas>
+                </div>
+            </div>
+
+            <!-- Links Rápidos -->
+            <div class="links-rapidos">
+                <h3>Links Rápidos</h3>
+                <div class="links">
+                    <a href="cadastro-cliente.html" class="link-card">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Cadastrar Cliente</span>
+                    </a>
+                    <a href="cadastro-material.html" class="link-card">
+                        <i class="fas fa-gem"></i>
+                        <span>Cadastrar Material</span>
+                    </a>
+                    <a href="atendimentos.html" class="link-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Registrar Atendimento</span>
+                    </a>
+                    <a href="estoque.html" class="link-card">
+                        <i class="fas fa-boxes"></i>
+                        <span>Ver Estoque</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 BijuteriasLuxo. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
