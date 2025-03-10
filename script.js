@@ -565,3 +565,27 @@ const dashboardModule = (() => {
         criarGraficoMateriais
     };
 })();
+
+// Exemplo: Listar materiais
+fetch('http://localhost:3000/materiais')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Erro:', error));
+
+// Exemplo: Cadastrar material
+const material = {
+    nome: 'Colar de Prata',
+    descricao: 'Colar fino de prata 925.',
+    valor: 120.50,
+    categoria: 'colares',
+    foto: 'url_da_foto.jpg'
+};
+
+fetch('http://localhost:3000/materiais', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(material)
+})
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Erro:', error));
