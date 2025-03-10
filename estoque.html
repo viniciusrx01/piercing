@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque - Bijuterias</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>Bijuterias<span>Luxo</span></h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="cliente.html">Clientes</a></li>
+                <li><a href="materiais.html">Materiais</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+            </ul>
+        </nav>
+        <div class="user">
+            <span>Olá, Admin</span>
+            <button class="logout-btn">Sair</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="estoque-section">
+            <h2>Controle de Estoque</h2>
+            <p>Gerencie o estoque dos materiais disponíveis.</p>
+
+            <!-- Tabela de Estoque -->
+            <div class="estoque-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Quantidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="estoqueList">
+                        <!-- Itens de estoque serão carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botão para adicionar novo item ao estoque -->
+            <button class="adicionar-item-btn" onclick="abrirModalAdicionarItem()">Adicionar Item</button>
+        </section>
+    </main>
+
+    <!-- Modal para adicionar/editar item no estoque -->
+    <div id="modalEstoque" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fecharModal()">&times;</span>
+            <h3 id="modalTitulo">Adicionar Item ao Estoque</h3>
+            <form id="estoqueForm">
+                <div class="input-group">
+                    <label for="material">Material:</label>
+                    <select id="material" name="material" required>
+                        <!-- Opções de materiais serão carregadas via JavaScript -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="quantidade">Quantidade:</label>
+                    <input type="number" id="quantidade" name="quantidade" placeholder="Digite a quantidade" required>
+                </div>
+                <button type="submit" class="submit-btn">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 BijuteriasLuxo. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

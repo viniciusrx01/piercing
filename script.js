@@ -287,3 +287,325 @@ function listarMateriais() {
 
 // Carregar lista de materiais ao abrir a página
 document.addEventListener('DOMContentLoaded', listarMateriais);
+
+// Listar Materiais
+function listarMateriais() {
+    const materiaisList = document.getElementById('materiaisList');
+    const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+
+    if (materiais.length === 0) {
+        materiaisList.innerHTML = '<p>Nenhum material cadastrado.</p>';
+    } else {
+        materiaisList.innerHTML = materiais.map((material, index) => `
+            <div class="material-card">
+                <img src="${material.foto}" alt="${material.nome}">
+                <h3>${material.nome}</h3>
+                <p>${material.descricao}</p>
+                <p class="valor">R$ ${material.valor.toFixed(2)}</p>
+                <div class="acoes">
+                    <button class="editar-btn" onclick="editarMaterial(${index})">Editar</button>
+                    <button class="excluir-btn" onclick="excluirMaterial(${index})">Excluir</button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// Editar Material
+function editarMaterial(index) {
+    const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+    const material = materiais[index];
+
+    // Redireciona para a página de cadastro com os dados do material
+    localStorage.setItem('materialEditando', JSON.stringify({ index, ...material }));
+    window.location.href = 'cadastro-material.html';
+}
+
+// Excluir Material
+function excluirMaterial(index) {
+    const confirmacao = confirm('Tem certeza que deseja excluir este material?');
+    if (confirmacao) {
+        const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+        materiais.splice(index, 1); // Remove o material do array
+        localStorage.setItem('materiais', JSON.stringify(materiais));
+        listarMateriais(); // Atualiza a lista de materiais
+        alert('Material excluído com sucesso!');
+    }
+}
+
+// Carregar lista de materiais ao abrir a página
+document.addEventListener('DOMContentLoaded', listarMateriais);
+
+// Carregar dados do material em edição (se existir)
+document.addEventListener('DOMContentLoaded', function () {
+    const materialEditando = JSON.parse(localStorage.getItem('materialEditando'));
+    if (materialEditando) {
+        document.getElementById('nome').value = materialEditando.nome;
+        document.getElementById('descricao').value = materialEditando.descricao;
+        document.getElementById('valor').value = materialEditando.valor;
+        if (materialEditando.foto) {
+            document.getElementById('fotoPreview').innerHTML = `<img src="${materialEditando.foto}" alt="Foto do Material">`;
+        }
+    }
+});
+
+// Cadastro/Edição de Material
+document.getElementById('materialForm').addEventListener('submit', function (e) {
+    e.preventDefault(); // Impede o envio do formulário
+
+    // Captura os valores dos campos
+    const nome = document.getElementById('nome').value;
+    const descricao = document.getElementById('descricao').value;
+    const valor = parseFloat(document.getElementById('valor').value);
+    const fotoInput = document.getElementById('foto');
+    const foto = fotoInput.files[0] ? fotoInput.files[0] : null;
+
+    // Converte a foto para Base64 (se existir)
+    let fotoBase64 = null;
+    if (foto) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            fotoBase64 = e.target.result;
+            salvarOuEditarMaterial(nome, descricao, valor, fotoBase64);
+        };
+        reader.readAsDataURL(foto);
+    } else {
+        salvarOuEditarMaterial(nome, descricao, valor, null);
+    }
+});
+
+function salvarOuEditarMaterial(nome, descricao, valor, foto) {
+    const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+    const materialEditando = JSON.parse(localStorage.getItem('materialEditando'));
+
+    if (materialEditando) {
+        // Editar material existente
+        materiais[materialEditando.index] = { nome, descricao, valor, foto: foto || materialEditando.foto };
+        localStorage.removeItem('materialEditando');
+    } else {
+        // Cadastrar novo material
+        materiais.push({ nome, descricao, valor, foto });
+    }
+
+    localStorage.setItem('materiais', JSON.stringify(materiais));
+    alert(materialEditando ? 'Material editado com sucesso!' : 'Material cadastrado com sucesso!');
+    window.location.href = 'materiais.html';
+}
+
+// Dados de estoque (simulação)
+let estoque = JSON.parse(localStorage.getItem('estoque')) || [];
+
+// Carregar materiais disponíveis
+const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+
+// Função para carregar a lista de estoque
+function carregarEstoque() {
+    const estoqueList = document.getElementById('estoqueList');
+    estoqueList.innerHTML = estoque.map((item, index) => `
+        <tr>
+            <td>${item.material}</td>
+            <td>${item.quantidade}</td>
+            <td class="acoes">
+                <button class="editar-btn" onclick="abrirModalEditarItem(${index})">Editar</button>
+                <button class="excluir-btn" onclick="excluirItemEstoque(${index})">Excluir</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Função para abrir o modal de adicionar item
+function abrirModalAdicionarItem() {
+    const modal = document.getElementById('modalEstoque');
+    const modalTitulo = document.getElementById('modalTitulo');
+    const materialSelect = document.getElementById('material');
+
+    modalTitulo.textContent = 'Adicionar Item ao Estoque';
+    materialSelect.innerHTML = materiais.map(material => `
+        <option value="${material.nome}">${material.nome}</option>
+    `).join('');
+
+    document.getElementById('estoqueForm').reset();
+    modal.style.display = 'flex';
+}
+
+// Função para abrir o modal de adicionar item
+function abrirModalAdicionarItem() {
+    const modal = document.getElementById('modalEstoque');
+    const modalTitulo = document.getElementById('modalTitulo');
+    const materialSelect = document.getElementById('material');
+
+    // Definir o título do modal
+    modalTitulo.textContent = 'Adicionar Item ao Estoque';
+
+    // Carregar os materiais disponíveis no select
+    const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+    materialSelect.innerHTML = materiais.map(material => `
+        <option value="${material.nome}">${material.nome}</option>
+    `).join('');
+
+    // Limpar o formulário
+    document.getElementById('estoqueForm').reset();
+
+    // Exibir o modal
+    modal.style.display = 'flex';
+}
+
+// Função para fechar o modal
+function fecharModal() {
+    const modal = document.getElementById('modalEstoque');
+    modal.style.display = 'none';
+}
+
+// Função para salvar item no estoque (adicionar ou editar)
+document.getElementById('estoqueForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const material = document.getElementById('material').value;
+    const quantidade = parseInt(document.getElementById('quantidade').value);
+    const modal = document.getElementById('modalEstoque');
+    const index = modal.dataset.index;
+
+    // Verificar se é uma edição ou adição
+    if (index !== undefined) {
+        // Editar item existente
+        estoque[index] = { material, quantidade };
+    } else {
+        // Adicionar novo item
+        estoque.push({ material, quantidade });
+    }
+
+    // Salvar no localStorage
+    localStorage.setItem('estoque', JSON.stringify(estoque));
+
+    // Atualizar a lista de estoque
+    carregarEstoque();
+
+    // Fechar o modal
+    fecharModal();
+
+    // Exibir mensagem de sucesso
+    alert('Item salvo com sucesso!');
+});
+
+// Função para carregar a lista de estoque
+function carregarEstoque() {
+    const estoqueList = document.getElementById('estoqueList');
+    estoqueList.innerHTML = estoque.map((item, index) => `
+        <tr>
+            <td>${item.material}</td>
+            <td>${item.quantidade}</td>
+            <td class="acoes">
+                <button class="editar-btn" onclick="abrirModalEditarItem(${index})">Editar</button>
+                <button class="excluir-btn" onclick="excluirItemEstoque(${index})">Excluir</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Função para abrir o modal de editar item
+function abrirModalEditarItem(index) {
+    const modal = document.getElementById('modalEstoque');
+    const modalTitulo = document.getElementById('modalTitulo');
+    const materialSelect = document.getElementById('material');
+
+    // Definir o título do modal
+    modalTitulo.textContent = 'Editar Item do Estoque';
+
+    // Carregar os materiais disponíveis no select
+    const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+    materialSelect.innerHTML = materiais.map(material => `
+        <option value="${material.nome}">${material.nome}</option>
+    `).join('');
+
+    // Preencher o formulário com os dados do item
+    const item = estoque[index];
+    document.getElementById('material').value = item.material;
+    document.getElementById('quantidade').value = item.quantidade;
+
+    // Exibir o modal e salvar o índice do item sendo editado
+    modal.style.display = 'flex';
+    modal.dataset.index = index;
+}
+
+// Função para excluir item do estoque
+function excluirItemEstoque(index) {
+    const confirmacao = confirm('Tem certeza que deseja excluir este item do estoque?');
+    if (confirmacao) {
+        estoque.splice(index, 1);
+        localStorage.setItem('estoque', JSON.stringify(estoque));
+        carregarEstoque();
+        alert('Item excluído com sucesso!');
+    }
+}
+
+// Carregar estoque ao abrir a página
+document.addEventListener('DOMContentLoaded', carregarEstoque);
+
+// Dados de atendimentos (simulação)
+let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
+
+// Função para carregar os clientes no select
+function carregarClientes() {
+    const clienteSelect = document.getElementById('cliente');
+    const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+
+    clienteSelect.innerHTML = clientes.map(cliente => `
+        <option value="${cliente.nome}">${cliente.nome}</option>
+    `).join('');
+}
+
+// Função para registrar um novo atendimento
+document.getElementById('atendimentoForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const cliente = document.getElementById('cliente').value;
+    const dataAtendimento = document.getElementById('dataAtendimento').value;
+    const procedimento = document.getElementById('procedimento').value;
+    const valorPago = parseFloat(document.getElementById('valorPago').value);
+    const joiaUtilizada = document.getElementById('joiaUtilizada').value;
+    const observacoes = document.getElementById('observacoes').value;
+
+    // Criar um objeto de atendimento
+    const atendimento = {
+        cliente,
+        dataAtendimento,
+        procedimento,
+        valorPago,
+        joiaUtilizada,
+        observacoes
+    };
+
+    // Salvar no localStorage
+    atendimentos.push(atendimento);
+    localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+
+    // Limpar o formulário
+    document.getElementById('atendimentoForm').reset();
+
+    // Atualizar a lista de atendimentos
+    carregarAtendimentos();
+
+    // Exibir mensagem de sucesso
+    alert('Atendimento registrado com sucesso!');
+});
+
+// Função para carregar o histórico de atendimentos
+function carregarAtendimentos() {
+    const listaAtendimentos = document.getElementById('listaAtendimentos');
+    listaAtendimentos.innerHTML = atendimentos.map(atendimento => `
+        <tr>
+            <td>${atendimento.dataAtendimento}</td>
+            <td>${atendimento.cliente}</td>
+            <td>${atendimento.procedimento}</td>
+            <td>R$ ${atendimento.valorPago.toFixed(2)}</td>
+            <td>${atendimento.joiaUtilizada}</td>
+            <td>${atendimento.observacoes}</td>
+        </tr>
+    `).join('');
+}
+
+// Carregar clientes e atendimentos ao abrir a página
+document.addEventListener('DOMContentLoaded', function () {
+    carregarClientes();
+    carregarAtendimentos();
+});

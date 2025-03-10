@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Cliente - Bijuterias</title>
+    <title>Cadastrar Material - Bijuterias</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -29,12 +29,12 @@
 
     <main class="main-content">
         <section class="cadastro-section">
-            <h2>Cadastrar Cliente</h2>
-            <p>Preencha os dados abaixo para cadastrar um novo cliente.</p>
-            <form id="clienteForm">
+            <h2>${localStorage.getItem('materialEditando') ? 'Editar' : 'Cadastrar'} Material</h2>
+            <p>Preencha os dados abaixo para ${localStorage.getItem('materialEditando') ? 'editar' : 'cadastrar'} um novo material.</p>
+            <form id="materialForm">
                 <!-- Campo de Foto -->
                 <div class="input-group">
-                    <label for="foto">Foto do Cliente:</label>
+                    <label for="foto">Foto do Material:</label>
                     <input type="file" id="foto" name="foto" accept="image/*" onchange="previewFoto(event)">
                     <div id="fotoPreview" class="foto-preview"></div>
                 </div>
@@ -42,30 +42,18 @@
                 <!-- Campos de Dados -->
                 <div class="input-group">
                     <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" placeholder="Digite o nome do cliente" required>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o nome do material" required>
                 </div>
                 <div class="input-group">
-                    <label for="dataNascimento">Data de Nascimento:</label>
-                    <input type="date" id="dataNascimento" name="dataNascimento" required>
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" placeholder="Digite a descrição do material"></textarea>
                 </div>
                 <div class="input-group">
-                    <label for="instagram">Instagram:</label>
-                    <input type="text" id="instagram" name="instagram" placeholder="Digite o Instagram">
-                </div>
-                <div class="input-group">
-                    <label for="whatsapp">WhatsApp:</label>
-                    <input type="text" id="whatsapp" name="whatsapp" placeholder="Digite o WhatsApp" required>
-                </div>
-                <div class="input-group">
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço">
-                </div>
-                <div class="input-group">
-                    <label for="observacoes">Observações:</label>
-                    <textarea id="observacoes" name="observacoes" placeholder="Digite observações sobre o cliente"></textarea>
+                    <label for="valor">Valor:</label>
+                    <input type="number" id="valor" name="valor" placeholder="Digite o valor do material" step="0.01" required>
                 </div>
 
-                <button type="submit" class="submit-btn">Cadastrar</button>
+                <button type="submit" class="submit-btn">${localStorage.getItem('materialEditando') ? 'Salvar Edição' : 'Cadastrar'}</button>
             </form>
         </section>
     </main>
