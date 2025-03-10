@@ -538,20 +538,31 @@ function excluirItemEstoque(index) {
     }
 }
 
-// Carregar estoque ao abrir a página
-document.addEventListener('DOMContentLoaded', carregarEstoque);
-
 // Dados de atendimentos (simulação)
 let atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
 
-// Função para carregar os clientes no select
-function carregarClientes() {
-    const clienteSelect = document.getElementById('cliente');
+// Função para carregar sugestões de clientes
+function carregarSugestoesClientes() {
+    const clienteInput = document.getElementById('cliente');
+    const sugestoesClientes = document.getElementById('sugestoesClientes');
     const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
 
-    clienteSelect.innerHTML = clientes.map(cliente => `
-        <option value="${cliente.nome}">${cliente.nome}</option>
-    `).join('');
+    clienteInput.addEventListener('input', function () {
+        const termo = this.value.toLowerCase();
+        const clientesFiltrados = clientes.filter(cliente =>
+            cliente.nome.toLowerCase().includes(termo)
+        );
+
+        sugestoesClientes.innerHTML = clientesFiltrados.map(cliente => `
+            <div onclick="selecionarCliente('${cliente.nome}')">${cliente.nome}</div>
+        `).join('');
+    });
+}
+
+// Função para selecionar um cliente nas sugestões
+function selecionarCliente(nome) {
+    document.getElementById('cliente').value = nome;
+    document.getElementById('sugestoesClientes').innerHTML = '';
 }
 
 // Função para registrar um novo atendimento
@@ -582,8 +593,9 @@ document.getElementById('atendimentoForm').addEventListener('submit', function (
     // Limpar o formulário
     document.getElementById('atendimentoForm').reset();
 
-    // Atualizar a lista de atendimentos
+    // Atualizar a lista de atendimentos e estatísticas
     carregarAtendimentos();
+    atualizarEstatisticas();
 
     // Exibir mensagem de sucesso
     alert('Atendimento registrado com sucesso!');
@@ -592,7 +604,7 @@ document.getElementById('atendimentoForm').addEventListener('submit', function (
 // Função para carregar o histórico de atendimentos
 function carregarAtendimentos() {
     const listaAtendimentos = document.getElementById('listaAtendimentos');
-    listaAtendimentos.innerHTML = atendimentos.map(atendimento => `
+    listaAtendimentos.innerHTML = atendimentos.map((atendimento, index) => `
         <tr>
             <td>${atendimento.dataAtendimento}</td>
             <td>${atendimento.cliente}</td>
@@ -600,12 +612,212 @@ function carregarAtendimentos() {
             <td>R$ ${atendimento.valorPago.toFixed(2)}</td>
             <td>${atendimento.joiaUtilizada}</td>
             <td>${atendimento.observacoes}</td>
+            <td>
+                <button class="editar-btn" onclick="editarAtendimento(${index})"><i class="fas fa-edit"></i></button>
+                <button class="excluir-btn" onclick="excluirAtendimento(${index})"><i class="fas fa-trash"></i></button>
+            </td>
         </tr>
     `).join('');
 }
 
-// Carregar clientes e atendimentos ao abrir a página
-document.addEventListener('DOMContentLoaded', function () {
-    carregarClientes();
+// Função para editar um atendimento
+function editarAtendimento(index) {
+    const atendimento = atendimentos[index];
+    document.getElementById('cliente').value = atendimento.cliente;
+    document.getElementById('dataAtendimento').value = atendimento.dataAtendimento;
+    document.getElementById('procedimento').value = atendimento.procedimento;
+    document.getElementById('valorPago').value = atendimento.valorPago;
+    document.getElementById('joiaUtilizada').value = atendimento.joiaUtilizada;
+    document.getElementById('observacoes').value = atendimento.observacoes;
+
+    // Remover o atendimento da lista
+    atendimentos.splice(index, 1);
+    localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+
+    // Atualizar a lista de atendimentos e estatísticas
     carregarAtendimentos();
+    atualizarEstatisticas();
+}
+
+// Função para excluir um atendimento
+function excluirAtendimento(index) {
+    const confirmacao = confirm('Tem certeza que deseja excluir este atendimento?');
+    if (confirmacao) {
+        atendimentos.splice(index, 1);
+        localStorage.setItem('atendimentos', JSON.stringify(atendimentos));
+        carregarAtendimentos();
+        atualizarEstatisticas();
+        alert('Atendimento excluído com sucesso!');
+    }
+}
+
+// Função para filtrar atendimentos
+function filtrarAtendimentos() {
+    const filtroCliente = document.getElementById('filtroCliente').value.toLowerCase();
+    const filtroDataInicio = document.getElementById('filtroDataInicio').value;
+    const filtroDataFim = document.getElementById('filtroDataFim').value;
+
+    const atendimentosFiltrados = atendimentos.filter(atendimento => {
+        const clienteMatch = atendimento.cliente.toLowerCase().includes(filtroCliente);
+        const dataMatch = (!filtroDataInicio || atendimento.dataAtendimento >= filtroDataInicio) &&
+                          (!filtroDataFim || atendimento.dataAtendimento <= filtroDataFim);
+        return clienteMatch && dataMatch;
+    });
+
+    const listaAtendimentos = document.getElementById('listaAtendimentos');
+    listaAtendimentos.innerHTML = atendimentosFiltrados.map((atendimento, index) => `
+        <tr>
+            <td>${atendimento.dataAtendimento}</td>
+            <td>${atendimento.cliente}</td>
+            <td>${atendimento.procedimento}</td>
+            <td>R$ ${atendimento.valorPago.toFixed(2)}</td>
+            <td>${atendimento.joiaUtilizada}</td>
+            <td>${atendimento.observacoes}</td>
+            <td>
+                <button class="editar-btn" onclick="editarAtendimento(${index})"><i class="fas fa-edit"></i></button>
+                <button class="excluir-btn" onclick="excluirAtendimento(${index})"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Função para exportar atendimentos para CSV
+function exportarAtendimentos() {
+    let csvContent = "data:text/csv;charset=utf-8,Data,Cliente,Procedimento,Valor Pago,Jóia Utilizada,Observações\n";
+    atendimentos.forEach(atendimento => {
+        csvContent += `${atendimento.dataAtendimento},${atendimento.cliente},${atendimento.procedimento},${atendimento.valorPago},${atendimento.joiaUtilizada},${atendimento.observacoes}\n`;
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'atendimentos.csv');
+    document.body.appendChild(link);
+    link.click();
+}
+
+// Função para atualizar estatísticas
+function atualizarEstatisticas() {
+    const totalAtendimentos = atendimentos.length;
+    const valorTotalRecebido = atendimentos.reduce((total, atendimento) => total + atendimento.valorPago, 0);
+
+    document.getElementById('totalAtendimentos').textContent = totalAtendimentos;
+    document.getElementById('valorTotalRecebido').textContent = valorTotalRecebido.toFixed(2);
+}
+
+// Carregar dados ao abrir a página
+document.addEventListener('DOMContentLoaded', function () {
+    carregarSugestoesClientes();
+    carregarAtendimentos();
+    atualizarEstatisticas();
+});
+
+// Dados de exemplo (substitua pelos dados reais do sistema)
+const clientes = JSON.parse(localStorage.getItem('clientes')) || [];
+const materiais = JSON.parse(localStorage.getItem('materiais')) || [];
+const atendimentos = JSON.parse(localStorage.getItem('atendimentos')) || [];
+
+// Atualizar cards de informações
+function atualizarCards() {
+    // Total de clientes
+    document.getElementById('totalClientes').textContent = clientes.length;
+
+    // Total de materiais
+    document.getElementById('totalMateriais').textContent = materiais.length;
+
+    // Valor total dos atendimentos no mês
+    const hoje = new Date();
+    const atendimentosMes = atendimentos.filter(atendimento => {
+        const dataAtendimento = new Date(atendimento.dataAtendimento);
+        return dataAtendimento.getMonth() === hoje.getMonth() && dataAtendimento.getFullYear() === hoje.getFullYear();
+    });
+    const valorTotal = atendimentosMes.reduce((total, atendimento) => total + atendimento.valorPago, 0);
+    document.getElementById('valorAtendimentos').textContent = `R$ ${valorTotal.toFixed(2)}`;
+
+    // Próximos aniversários
+    const aniversarios = clientes.map(cliente => {
+        const dataNascimento = new Date(cliente.dataNascimento);
+        return {
+            nome: cliente.nome,
+            dia: dataNascimento.getDate(),
+            mes: dataNascimento.getMonth() + 1
+        };
+    }).filter(cliente => cliente.mes === hoje.getMonth() + 1 && cliente.dia >= hoje.getDate())
+      .sort((a, b) => a.dia - b.dia);
+
+    const listaAniversarios = document.getElementById('proximosAniversarios');
+    listaAniversarios.innerHTML = aniversarios.map(cliente => `
+        <li>${cliente.nome} - ${cliente.dia}/${cliente.mes}</li>
+    `).join('');
+}
+
+// Gráfico de atendimentos por mês
+function criarGraficoAtendimentos() {
+    const ctx = document.getElementById('graficoAtendimentos').getContext('2d');
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    const dados = meses.map((mes, index) => {
+        return atendimentos.filter(atendimento => {
+            const data = new Date(atendimento.dataAtendimento);
+            return data.getMonth() === index;
+        }).length;
+    });
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: meses,
+            datasets: [{
+                label: 'Atendimentos',
+                data: dados,
+                backgroundColor: '#f39c12',
+                borderColor: '#e67e22',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+// Gráfico de materiais mais utilizados
+function criarGraficoMateriais() {
+    const ctx = document.getElementById('graficoMateriais').getContext('2d');
+    const materiaisUtilizados = {};
+
+    atendimentos.forEach(atendimento => {
+        if (materiaisUtilizados[atendimento.joiaUtilizada]) {
+            materiaisUtilizados[atendimento.joiaUtilizada]++;
+        } else {
+            materiaisUtilizados[atendimento.joiaUtilizada] = 1;
+        }
+    });
+
+    const labels = Object.keys(materiaisUtilizados);
+    const dados = Object.values(materiaisUtilizados);
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Materiais Utilizados',
+                data: dados,
+                backgroundColor: [
+                    '#f39c12', '#e67e22', '#d35400', '#e74c3c', '#c0392b', '#9b59b6', '#8e44ad'
+                ]
+            }]
+        }
+    });
+}
+
+// Carregar dados ao abrir a página
+document.addEventListener('DOMContentLoaded', function () {
+    atualizarCards();
+    criarGraficoAtendimentos();
+    criarGraficoMateriais();
 });
