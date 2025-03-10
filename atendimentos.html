@@ -6,6 +6,7 @@
     <title>Atendimentos - Bijuterias</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -19,6 +20,7 @@
                 <li><a href="materiais.html">Materiais</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
                 <li><a href="atendimentos.html">Atendimentos</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
             </ul>
         </nav>
         <div class="user">
@@ -36,10 +38,8 @@
             <form id="atendimentoForm">
                 <div class="input-group">
                     <label for="cliente">Cliente:</label>
-                    <select id="cliente" name="cliente" required>
-                        <option value="">Selecione um cliente</option>
-                        <!-- Opções de clientes serão carregadas via JavaScript -->
-                    </select>
+                    <input type="text" id="cliente" name="cliente" placeholder="Digite o nome do cliente" required>
+                    <div id="sugestoesClientes" class="sugestoes"></div>
                 </div>
                 <div class="input-group">
                     <label for="dataAtendimento">Data do Atendimento:</label>
@@ -64,9 +64,37 @@
                 <button type="submit" class="submit-btn">Registrar Atendimento</button>
             </form>
 
+            <!-- Filtros -->
+            <div class="filtros">
+                <h3>Filtrar Atendimentos</h3>
+                <div class="input-group">
+                    <label for="filtroCliente">Cliente:</label>
+                    <input type="text" id="filtroCliente" placeholder="Digite o nome do cliente">
+                </div>
+                <div class="input-group">
+                    <label for="filtroDataInicio">Data Inicial:</label>
+                    <input type="date" id="filtroDataInicio">
+                </div>
+                <div class="input-group">
+                    <label for="filtroDataFim">Data Final:</label>
+                    <input type="date" id="filtroDataFim">
+                </div>
+                <button class="filtrar-btn" onclick="filtrarAtendimentos()">Filtrar</button>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="estatisticas">
+                <h3>Estatísticas</h3>
+                <p>Total de Atendimentos: <span id="totalAtendimentos">0</span></p>
+                <p>Valor Total Recebido: R$ <span id="valorTotalRecebido">0.00</span></p>
+            </div>
+
             <!-- Lista de Atendimentos -->
             <div class="atendimentos-list">
                 <h3>Histórico de Atendimentos</h3>
+                <button class="exportar-btn" onclick="exportarAtendimentos()">
+                    <i class="fas fa-download"></i> Exportar (CSV)
+                </button>
                 <table>
                     <thead>
                         <tr>
@@ -76,6 +104,7 @@
                             <th>Valor Pago</th>
                             <th>Jóia Utilizada</th>
                             <th>Observações</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="listaAtendimentos">
