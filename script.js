@@ -589,3 +589,31 @@ fetch('http://localhost:3000/materiais', {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error('Erro:', error));
+
+// Substitua pelo ID da sua planilha e o nome da aba
+const spreadsheetId = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRuYubVZhTqcvqxiNZj0BW188rde7cODppOIKNfZNunr9NW5W6AhECkbDGygWyc7X6IcNi7o2Ti5--t/pubhtml
+';
+const sheetName = 'Página1';
+const apiKey = 'AIzaSyAJ1UfdrbQDzSWEsgnEuUtc-8r838HYbQg';
+
+// URL da API do Google Sheets
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}?key=${apiKey}`;
+
+// Função para buscar os dados
+async function fetchData() {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data.values); // Dados da planilha
+        return data.values;
+    } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+    }
+}
+
+// Exemplo de uso
+fetchData().then(data => {
+    // Atualize os elementos da página com os dados
+    document.getElementById('clientCount').textContent = data.length; // Exemplo: número de clientes
+});
+
